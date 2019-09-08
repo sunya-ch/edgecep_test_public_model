@@ -1,0 +1,18 @@
+[Unit]
+Description=Autossh EdgeCEP
+Wants=network-online.target
+After=network.target redis.service
+
+[Service]
+Type=forking
+Environment=DECOMPOSER=on_demand
+Environment=PARTITIONER=always
+Environment=VIDEO_SAMPLING_TIME=10
+ExecStart=/usr/src/app/edgecep/edgecep_python/run_processor.sh
+ExecStop=/usr/bin/killall -9 python
+
+# Useful during debugging; remove it once the service is working
+StandardOutput=console
+
+[Install]
+WantedBy=multi-user.target
